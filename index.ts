@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectToServer } from "./db/conn.js";
+import testRoutes from "./routes/test.js";
 
 dotenv.config();
 
@@ -10,6 +11,8 @@ const port = process.env.PORT;
 app.get("/", (req, res) => {
   res.send("Express + TypeScript Server");
 });
+
+app.use(testRoutes);
 
 const result = await connectToServer();
 if (result.success) {
