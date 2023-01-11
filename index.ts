@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import { connectToServer } from "./db/conn.js";
 import testRoutes from "./routes/test.js";
 import authRoutes from "./routes/auth/index.js";
+import { bodyValidatorMiddleware } from "./routes/middleware.js";
+import { RouteUrl } from "./routes/constants.js";
 
 dotenv.config();
 
@@ -15,7 +17,8 @@ app.get("/", (req, res) => {
 });
 
 app.use(testRoutes);
-app.use('/auth', authRoutes)
+app.use(bodyValidatorMiddleware);
+app.use(RouteUrl.Auth, authRoutes);
 
 const result = await connectToServer();
 if (result.success) {
