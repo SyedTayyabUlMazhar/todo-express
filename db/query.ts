@@ -1,9 +1,9 @@
-import { userCollection } from "./collections.js";
+import Collections from "./collections.js";
 import { User } from "./types.js";
 
 const getUser = async (userProperties: Partial<User>) => {
   try {
-    const user = await userCollection.findOne(userProperties);
+    const user = await Collections.users.findOne(userProperties);
     return user;
   } catch (e) {
     console.error("Error while fetching user: ", e);
