@@ -7,7 +7,7 @@ import { signupSchema } from "./schema.js";
  * A middleware to validate the data recieved by the api.
  * If invalid a 400 error is returned with validation message.
  */
-export const bodyValidatorMiddleware: RequestHandler = (req, res, next) => {
+const bodyValidatorMiddleware: RequestHandler = (req, res, next) => {
   const schema = RouteSchemaMap[req.url];
 
   if (!schema) next();
@@ -19,3 +19,9 @@ export const bodyValidatorMiddleware: RequestHandler = (req, res, next) => {
     } else res.status(400).json({ error: { message } });
   }
 };
+
+const Middleware = {
+  bodyValidatorMiddleware,
+};
+
+export default Middleware;
