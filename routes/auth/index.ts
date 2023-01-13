@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { User } from "../../db/types.js";
 import AuthMiddleware from "./middleware.js";
 import Collections from "../../db/collections.js";
+import Jwt from "../../utils/jwtUtil.js";
 
 const authRoutes = express.Router();
 export default authRoutes;
@@ -18,6 +19,8 @@ authRoutes
 
       const user: User = { ...body, userId: uuidv4() };
       await Collections.users.insertOne(user);
-      res.send("Signup successs");
+      const token = Jwt.generate(user);
+
+      res.json({ message: "Signup successfull", data: { token } });
     }
   );
