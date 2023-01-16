@@ -27,3 +27,7 @@ authRoutes
       res.json(ApiResponse.success({ token }, SuccessMessage.signup));
     }
   );
+
+authRoutes.route(RouteUrl.SignIn).post(async function (req, res) {
+  res.send("Sign In");
+});

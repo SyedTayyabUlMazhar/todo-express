@@ -3,6 +3,7 @@ import { signupSchema } from "./schema.js";
 export const RouteUrl = {
   Auth: "/auth",
   SignUp: "/signup",
+  SignIn: "/signin",
 };
 
 export const RouteSchemaMap = {
