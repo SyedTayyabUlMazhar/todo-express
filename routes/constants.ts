@@ -1,4 +1,4 @@
-import { signInSchema, signupSchema } from "./schema.js";
+import Schema from "./schema.js";
 
 export const RouteUrl = {
   Auth: "/auth",
@@ -7,8 +7,8 @@ export const RouteUrl = {
 };
 
 export const RouteSchemaMap = {
-  [RouteUrl.Auth + RouteUrl.SignUp]: signupSchema,
-  [RouteUrl.Auth + RouteUrl.SignIn]: signInSchema,
+  [RouteUrl.Auth + RouteUrl.SignUp]: Schema.signUp,
+  [RouteUrl.Auth + RouteUrl.SignIn]: Schema.signIn,
 };
 
 export const SuccessMessage = {

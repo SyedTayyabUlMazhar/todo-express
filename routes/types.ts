@@ -1,3 +1,3 @@
-import { signupSchema } from "./schema";
+import Schema from "./schema";
 
-export type SignUpBody = typeof signupSchema["__outputType"];
+export type SignUpBody = typeof Schema.signUp["__outputType"];
