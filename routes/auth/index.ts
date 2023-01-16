@@ -7,6 +7,7 @@ import AuthMiddleware from "./middleware.js";
 import Collections from "../../db/collections.js";
 import Jwt from "../../utils/jwtUtil.js";
 import ApiResponse from "../../utils/responseUtil.js";
+import Password from "../../utils/passwordUtil.js";
 
 const authRoutes = express.Router();
 export default authRoutes;
@@ -17,6 +18,7 @@ authRoutes
     AuthMiddleware.userExists,
     async function (req: Request<{}, {}, SignUpBody>, res) {
       const body = req.body;
+      body.password = Password.encrypt(body.password);
 
       const user: User = { ...body, userId: uuidv4() };
       await Collections.users.insertOne(user);
