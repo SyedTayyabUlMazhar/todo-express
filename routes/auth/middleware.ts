@@ -1,5 +1,7 @@
 import { Request, RequestHandler } from "express";
 import Query from "../../db/query.js";
+import ApiResponse from "../../utils/responseUtil.js";
+import { FailureMessage } from "../constants.js";
 import { SignUpBody } from "../types";
 
 const userExists: RequestHandler = async function (
@@ -9,7 +11,7 @@ const userExists: RequestHandler = async function (
 ) {
   const userExists = await Query.doesUserExists({ email: req.body.email });
   if (userExists) {
-    res.status(400).send({ error: { message: "User already exists" } });
+    res.status(400).send(ApiResponse.failure(FailureMessage.userExists));
   } else {
     next();
   }

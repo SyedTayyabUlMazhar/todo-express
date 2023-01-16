@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import ApiResponse from "../utils/responseUtil.js";
 import { validateSchema } from "../utils/yuputil.js";
 import { RouteSchemaMap } from "./constants.js";
 import { signupSchema } from "./schema.js";
@@ -16,7 +17,7 @@ const bodyValidatorMiddleware: RequestHandler = (req, res, next) => {
     if (isValid) {
       req.body = signupSchema.cast(req.body);
       next();
-    } else res.status(400).json({ error: { message } });
+    } else res.status(400).json(ApiResponse.failure(message!));
   }
 };
 
