@@ -2,7 +2,6 @@ import { RequestHandler } from "express";
 import ApiResponse from "../utils/responseUtil.js";
 import { validateSchema } from "../utils/yuputil.js";
 import { RouteSchemaMap } from "./constants.js";
-import { signupSchema } from "./schema.js";
 
 /**
  * A middleware to validate the data recieved by the api.
@@ -15,7 +14,7 @@ const bodyValidatorMiddleware: RequestHandler = (req, res, next) => {
   else {
     const { isValid, message } = validateSchema(schema, req.body);
     if (isValid) {
-      req.body = signupSchema.cast(req.body);
+      req.body = schema.cast(req.body);
       next();
     } else res.status(400).json(ApiResponse.failure(message!));
   }
