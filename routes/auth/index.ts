@@ -48,6 +48,12 @@ authRoutes
         .status(400)
         .json(ApiResponse.failure(FailureMessage.invalidEmailOrPassword));
     } else {
-      res.send("Sign In");
+      const token = Jwt.generate({ userId: user.userId });
+      // exclude _id and password from user data when sending it to client
+      const { _id, password, ..._user } = user;
+
+      res.json(
+        ApiResponse.success({ user: _user, token }, SuccessMessage.signIn)
+      );
     }
   });
