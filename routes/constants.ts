@@ -4,6 +4,8 @@ export const RouteUrl = {
   Auth: "/auth",
   SignUp: "/signup",
   SignIn: "/signin",
+
+  Post: "/post",
 };
 
 export const RouteSchemaMap = {
@@ -13,7 +15,7 @@ export const RouteSchemaMap = {
 
 export const SuccessMessage = {
   signup: "Signup successfull",
-  signIn: "SignIn successfull"
+  signIn: "SignIn successfull",
 };
 
 export const FailureMessage = {
