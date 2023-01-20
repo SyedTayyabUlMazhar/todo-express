@@ -1,5 +1,6 @@
 import { AnyError, Db, MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import Collections from "./collections.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ export const connectToServer = async () => {
   try {
     const mongoClient = await client.connect();
     db = mongoClient.db("testdb");
+    Collections.init(db);
     console.log("Successfully connected to MongoDB.");
     return { success: true };
   } catch (e) {
