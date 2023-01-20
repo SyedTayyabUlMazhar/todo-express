@@ -37,13 +37,10 @@ authRoutes
       body: { email, password },
     } = req;
 
-    const user = await Query.getUser({ email });
+    const user = await Query.getUser({ email, password });
+    const invalidCredentials = !user;
 
-    const userDoesntExist = !user;
-    const invalidPassword = user?.password !== password;
-    const invalidEmailOrPassword = userDoesntExist || invalidPassword;
-
-    if (invalidEmailOrPassword) {
+    if (invalidCredentials) {
       res
         .status(400)
         .json(ApiResponse.failure(FailureMessage.invalidEmailOrPassword));
