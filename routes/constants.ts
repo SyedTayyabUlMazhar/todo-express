@@ -21,4 +21,5 @@ export const SuccessMessage = {
 export const FailureMessage = {
   userExists: "User already exists",
   invalidEmailOrPassword: "Incorrect email or password",
+  userDoesntExist: "This user doesn't exist",
 };
