@@ -12,6 +12,7 @@ export const RouteUrl = {
 export const RouteSchemaMap = {
   [RouteUrl.Auth + RouteUrl.SignUp]: Schema.signUp,
   [RouteUrl.Auth + RouteUrl.SignIn]: Schema.signIn,
+  [RouteUrl.Post + RouteUrl.createPost]: Schema.createPost,
 };
 
 export const SuccessMessage = {
