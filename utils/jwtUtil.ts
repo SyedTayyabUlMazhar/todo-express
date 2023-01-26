@@ -5,9 +5,10 @@ import { User } from "../db/types";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET!;
+const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME!;
 
 function generateAccessToken(user: Partial<User>) {
-  return jwt.sign(user, JWT_SECRET, { expiresIn: "18s" });
+  return jwt.sign(user, JWT_SECRET, { expiresIn: TOKEN_EXPIRE_TIME });
 }
 
 type VerifyToken =
