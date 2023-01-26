@@ -3,8 +3,11 @@ import Schema from "./schema";
 import { ParamsDictionary, Query } from "express-serve-static-core";
 import { Request } from "express";
 
-export type SignUpBody = typeof Schema.signUp["__outputType"];
-export type SignInBody = typeof Schema.signIn["__outputType"];
+type schemaOutput<SchemaKey extends keyof typeof Schema> =
+  typeof Schema[SchemaKey]["__outputType"];
+
+export type SignUpBody = schemaOutput<"signUp">;
+export type SignInBody = schemaOutput<"signIn">;
 
 export type AuthorizedRequest<
   P = ParamsDictionary,
@@ -13,3 +16,5 @@ export type AuthorizedRequest<
   ReqQuery = Query,
   Locals extends Record<string, any> = Record<string, any>
 > = Request<P, ResBody, ReqBody, ReqQuery, Locals> & { user?: User };
+
+export type CreatePostBody = schemaOutput<"createPost">;

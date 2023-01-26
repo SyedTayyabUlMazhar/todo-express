@@ -18,6 +18,7 @@ export const RouteSchemaMap = {
 export const SuccessMessage = {
   signup: "Signup successfull",
   signIn: "SignIn successfull",
+  createPost: "Post created sucessfully",
 };
 
 export const FailureMessage = {
