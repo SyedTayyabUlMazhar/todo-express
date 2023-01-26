@@ -6,6 +6,7 @@ export const RouteUrl = {
   SignIn: "/signin",
 
   Post: "/post",
+  createPost: "/create",
 };
 
 export const RouteSchemaMap = {
