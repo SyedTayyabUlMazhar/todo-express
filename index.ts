@@ -20,6 +20,8 @@ app.get("/", (req, res) => {
 app.use(testRoutes);
 app.use(Middleware.bodyValidatorMiddleware);
 app.use(RouteUrl.Auth, authRoutes);
+
+app.use(RouteUrl.Post, Middleware.authorized);
 app.use(RouteUrl.Post, postRoutes);
 
 const result = await connectToServer();

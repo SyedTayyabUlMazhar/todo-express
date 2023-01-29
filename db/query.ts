@@ -1,5 +1,7 @@
 import Collections from "./collections.js";
-import { User } from "./types.js";
+import { Post, User } from "./types.js";
+import { v4 as uuidv4 } from "uuid";
+import DateUtil from "../utils/dateUtil.js";
 
 const getUser = async (userProperties: Partial<User>) => {
   try {
@@ -15,9 +17,25 @@ const doesUserExists = async (userProperties: Partial<User>) => {
   return Boolean(await getUser(userProperties));
 };
 
+const createPost = async (postText: string): Promise<Post> => {
+  const post: Post = {
+    postId: uuidv4(),
+    text: postText,
+    likes: 0,
+    createdAt: DateUtil.nowIso(),
+    updatedAt: DateUtil.nowIso(),
+    deletedAt: null,
+  };
+
+  await Collections.posts.insertOne(post);
+
+  return post;
+};
+
 const Query = {
   getUser,
   doesUserExists,
+  createPost,
 };
 
 export default Query;
