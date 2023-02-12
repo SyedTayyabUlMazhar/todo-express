@@ -22,4 +22,8 @@ export type CreatePostBody = schemaOutput<"createPost">;
 
 export type Response<D> = ExpressResponse<SuccessResponse<D> | ErrorResponse>;
 
-export type CreatePostResponse = Response<Post>;
+export type CreatePostResponse = Response<
+  Post & {
+    author: Omit<User, "password">;
+  }
+>;
