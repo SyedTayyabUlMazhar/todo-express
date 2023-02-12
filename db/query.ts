@@ -17,9 +17,10 @@ const doesUserExists = async (userProperties: Partial<User>) => {
   return Boolean(await getUser(userProperties));
 };
 
-const createPost = async (postText: string): Promise<Post> => {
+const createPost = async (postText: string, authorId: string): Promise<Post> => {
   const post: Post = {
     postId: uuidv4(),
+    authorId,
     text: postText,
     likes: 0,
     createdAt: DateUtil.nowIso(),

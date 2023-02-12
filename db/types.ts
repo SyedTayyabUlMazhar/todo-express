@@ -10,6 +10,7 @@ export type User = {
 
 export type Post = {
   postId: string;
+  authorId: string;
   text: string;
   likes: number;
   createdAt: string;

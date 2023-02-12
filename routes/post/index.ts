@@ -12,7 +12,7 @@ postRoutes
   .post(async (req: AuthorizedRequest<{}, {}, CreatePostBody>, res) => {
     if (!req.user) return;
 
-    const post = await Query.createPost(req.body.text);
+      const post = await Query.createPost(req.body.text, req.user.userId);
 
     res.json(ApiResponse.success(post, SuccessMessage.createPost));
   });
