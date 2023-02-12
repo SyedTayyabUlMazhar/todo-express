@@ -1,7 +1,8 @@
-import { User } from "../db/types";
+import { Post, User } from "../db/types";
 import Schema from "./schema";
 import { ParamsDictionary, Query } from "express-serve-static-core";
-import { Request } from "express";
+import { Request, Response as ExpressResponse } from "express";
+import { ErrorResponse, SuccessResponse } from "../utils/types";
 
 type schemaOutput<SchemaKey extends keyof typeof Schema> =
   typeof Schema[SchemaKey]["__outputType"];
@@ -18,3 +19,7 @@ export type AuthorizedRequest<
 > = Request<P, ResBody, ReqBody, ReqQuery, Locals> & { user?: User };
 
 export type CreatePostBody = schemaOutput<"createPost">;
+
+export type Response<D> = ExpressResponse<SuccessResponse<D> | ErrorResponse>;
+
+export type CreatePostResponse = Response<Post>;

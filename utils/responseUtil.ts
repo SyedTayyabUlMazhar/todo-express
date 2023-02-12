@@ -1,20 +1,9 @@
-type SuccessResponse = {
-  message?: string;
-  data: Record<string, any>;
-  ok: true;
-};
+import { ErrorResponse, SuccessResponse } from "./types";
 
-type ErrorResponse = {
-  message: string;
-  ok: false;
-};
-
-type ApiResponse = SuccessResponse | ErrorResponse;
-
-const successResponse = (
-  data: Record<string, any>,
+const successResponse = <D extends Record<string, any> = Record<string, any>>(
+  data: D,
   message?: string
-): SuccessResponse => {
+): SuccessResponse<D> => {
   const response = { message, data, ok: true as const };
 
   return response;
