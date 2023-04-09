@@ -17,7 +17,10 @@ const doesUserExists = async (userProperties: Partial<User>) => {
   return Boolean(await getUser(userProperties));
 };
 
-const createPost = async (postText: string, authorId: string): Promise<Post> => {
+const createPost = async (
+  postText: string,
+  authorId: string
+): Promise<Post> => {
   const post: Post = {
     postId: uuidv4(),
     authorId,
@@ -33,10 +36,30 @@ const createPost = async (postText: string, authorId: string): Promise<Post> => 
   return post;
 };
 
+const updatePost = async (
+  filter: Partial<Post> & Pick<Post, "postId">,
+  updates: Partial<Post>
+): Promise<Post | null> => {
+  let updatedPost = null;
+  try {
+    updates.updatedAt = DateUtil.nowIso();
+    const result = await Collections.posts.updateOne(filter, { $set: updates });
+
+    if (result.matchedCount) {
+      updatedPost = Collections.posts.findOne({ postId: filter.postId });
+    }
+  } catch (e) {
+    console.error("Query: updatePost: e: ", e);
+  } finally {
+    return updatedPost;
+  }
+};
+
 const Query = {
   getUser,
   doesUserExists,
   createPost,
+  updatePost,
 };
 
 export default Query;

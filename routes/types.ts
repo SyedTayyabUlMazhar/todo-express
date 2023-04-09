@@ -27,3 +27,7 @@ export type CreatePostResponse = Response<
     author: Omit<User, "password">;
   }
 >;
+
+export type UpdatePostBody = schemaOutput<"updatePost">;
+export type UpdatePostParams = { id: string };
+export type UpdatePostResponse = CreatePostResponse;
