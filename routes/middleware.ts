@@ -6,13 +6,24 @@ import { validateSchema } from "../utils/yuputil.js";
 import { FailureMessage, RouteSchemaMap } from "./constants.js";
 import { AuthorizedRequest } from "./types.js";
 
+const schemaFromRouteUrl = (url: string) => {
+  if (RouteSchemaMap[url]) return RouteSchemaMap[url];
+
+  for (let [route, schema] of Object.entries(RouteSchemaMap)) {
+    route = route.replace(/:[a-zA-Z]+/g, ".+");
+    const regex = new RegExp(route);
+    const matchFound = Boolean(url.match(regex)?.length);
+    if (matchFound) return schema;
+  }
+
+  return null;
+};
 /**
  * A middleware to validate the data recieved by the api.
  * If invalid a 400 error is returned with validation message.
  */
 const bodyValidatorMiddleware: RequestHandler = (req, res, next) => {
-  const schema = RouteSchemaMap[req.url];
-
+  const schema = schemaFromRouteUrl(req.url);
   if (!schema) next();
   else {
     const { isValid, message } = validateSchema(schema, req.body);
