@@ -16,6 +16,7 @@ export type Post = {
   createdAt: string;
   updatedAt: string;
   deletedAt: null | string;
+  likedBy: string[],
 };
 
 export type Collections = {

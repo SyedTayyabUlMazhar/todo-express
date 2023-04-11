@@ -31,3 +31,6 @@ export type CreatePostResponse = Response<
 export type UpdatePostBody = schemaOutput<"updatePost">;
 export type UpdatePostParams = { id: string };
 export type UpdatePostResponse = CreatePostResponse;
+
+export type LikeUnlikeParams = { id: string };
+export type LikeUnlikeResponse = CreatePostResponse;

@@ -7,6 +7,8 @@ import {
   AuthorizedRequest,
   CreatePostBody,
   CreatePostResponse,
+  LikeUnlikeParams,
+  LikeUnlikeResponse,
   UpdatePostBody,
   UpdatePostParams,
   UpdatePostResponse,
@@ -53,5 +55,33 @@ postRoutes
         const response = { ...updatedPost, author };
         res.status(200).json(ApiResponse.success(response));
       }
+    }
+  );
+
+postRoutes
+  .route(RouteUrl.likeUnlikePost)
+  .patch(
+    async (
+      req: AuthorizedRequest<LikeUnlikeParams>,
+      res: LikeUnlikeResponse
+    ) => {
+      if (!req.user) return;
+
+      const postId = req.params.id;
+      const userId = req.user.userId;
+
+      const updatedPost = await Query.likeUnlikePost(postId, userId);
+
+      if (!updatedPost) {
+        res.status(400).json(ApiResponse.failure(FailureMessage.invalidPostId));
+        return;
+      }
+
+      const postAuthor = await Query.getUser({ userId: updatedPost.authorId });
+      const response = {
+        ...updatedPost,
+        author: ObjectUtil.omitProperties(postAuthor!, "password"),
+      };
+      res.json(ApiResponse.success(response));
     }
   );

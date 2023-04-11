@@ -8,6 +8,7 @@ export const RouteUrl = {
   Post: "/post",
   createPost: "/create",
   updatePost: "/update/:id",
+  likeUnlikePost: "/likeUnlike/:id",
 };
 
 export const RouteSchemaMap = {
