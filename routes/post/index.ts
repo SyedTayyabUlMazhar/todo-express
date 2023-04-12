@@ -4,6 +4,8 @@ import ObjectUtil from "../../utils/objectUtil.js";
 import ApiResponse from "../../utils/responseUtil.js";
 import { FailureMessage, RouteUrl, SuccessMessage } from "../constants.js";
 import {
+  AllPostsParams,
+  AllPostsResponse,
   AuthorizedRequest,
   CreatePostBody,
   CreatePostResponse,
@@ -13,6 +15,7 @@ import {
   UpdatePostParams,
   UpdatePostResponse,
 } from "../types";
+import Collections from "../../db/collections.js";
 
 const postRoutes = express.Router();
 export default postRoutes;
@@ -83,5 +86,45 @@ postRoutes
         author: ObjectUtil.omitProperties(postAuthor!, "password"),
       };
       res.json(ApiResponse.success(response));
+    }
+  );
+
+postRoutes
+  .route(RouteUrl.allPosts)
+  .get(
+    async (req: AuthorizedRequest<AllPostsParams>, res: AllPostsResponse) => {
+      const page = parseInt(req.params.page);
+      const LIMIT = 10;
+      const skip = (page - 1) * LIMIT;
+
+      const postsCursor = Collections.posts.find(
+        {},
+        { limit: LIMIT + 1, skip }
+      );
+      let posts = await postsCursor.toArray();
+
+      let next = null;
+      if (posts.length === LIMIT + 1) {
+        next = page + 1;
+        posts.pop();
+      }
+
+      const postsWithAuthor = await Promise.all(
+        posts.map(async (post) => {
+          let author = ObjectUtil.omitProperties(
+            (await Query.getUser({ userId: post.authorId }))!,
+            "password"
+          );
+          return { ...post, author };
+        })
+      );
+
+      res.json(
+        ApiResponse.success({
+          items: postsWithAuthor,
+          current: page,
+          next,
+        })
+      );
     }
   );

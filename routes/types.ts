@@ -34,3 +34,12 @@ export type UpdatePostResponse = CreatePostResponse;
 
 export type LikeUnlikeParams = { id: string };
 export type LikeUnlikeResponse = CreatePostResponse;
+
+export type AllPostsParams = { page: string };
+export type AllPostsResponse = Response<{
+  items: (Post & {
+    author: Omit<User, "password">;
+  })[];
+  current: number;
+  next: null | number;
+}>;

@@ -9,13 +9,14 @@ export const RouteUrl = {
   createPost: "/create",
   updatePost: "/update/:id",
   likeUnlikePost: "/likeUnlike/:id",
+  allPosts: "/page=:page",
 };
 
 export const RouteSchemaMap = {
   [RouteUrl.Auth + RouteUrl.SignUp]: Schema.signUp,
   [RouteUrl.Auth + RouteUrl.SignIn]: Schema.signIn,
   [RouteUrl.Post + RouteUrl.createPost]: Schema.createPost,
-  [RouteUrl.Post + RouteUrl.updatePost ]: Schema.updatePost,
+  [RouteUrl.Post + RouteUrl.updatePost]: Schema.updatePost,
 };
 
 export const SuccessMessage = {
