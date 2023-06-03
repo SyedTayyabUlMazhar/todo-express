@@ -5,6 +5,7 @@ import testRoutes from "./routes/test.js";
 import authRoutes from "./routes/auth/index.js";
 import { RouteUrl } from "./routes/constants.js";
 import Middleware from "./routes/middleware.js";
+import postRoutes from "./routes/post/index.js";
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ app.get("/", (req, res) => {
 app.use(testRoutes);
 app.use(Middleware.bodyValidatorMiddleware);
 app.use(RouteUrl.Auth, authRoutes);
+
+app.use(RouteUrl.Post, Middleware.authorized);
+app.use(RouteUrl.Post, postRoutes);
 
 const result = await connectToServer();
 if (result.success) {

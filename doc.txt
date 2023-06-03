@@ -1,0 +1,9 @@
+Features:
+
+Like/Unlike API:
+  - Post should have an array of userIds who have liked the post (likedBy)
+  - like count
+  - On call:
+    - Check if current user id is in likeBy array 
+      - true: --count, remove user id from array
+      - false: ++count, add user id in array

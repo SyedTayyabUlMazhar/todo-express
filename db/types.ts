@@ -8,7 +8,19 @@ export type User = {
   age: number;
 };
 
+export type Post = {
+  postId: string;
+  authorId: string;
+  text: string;
+  likes: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: null | string;
+  likedBy: string[],
+};
+
 export type Collections = {
   users: Collection<User>;
+  posts: Collection<Post>;
   init(db: Db): void;
 };

@@ -15,9 +15,19 @@ const signInSchema = yup.object({
   password,
 });
 
+const createPostSchema = yup.object({
+  text: yup.string().required().min(40).label("Text"),
+});
+
+const updatePostSchema = yup.object({
+  text: yup.string().required().min(40).label("Text"),
+});
+
 const Schema = {
   signUp: signupSchema,
   signIn: signInSchema,
+  createPost: createPostSchema,
+  updatePost: updatePostSchema,
 };
 
 export default Schema;
