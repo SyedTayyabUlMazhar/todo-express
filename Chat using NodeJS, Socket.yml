@@ -1,0 +1,20 @@
+Chat using NodeJS, Socket.io & mongodb.
+
+Vocabulary:
+  - Room
+  - Message
+  - Participant
+  - Last Message
+
+Room:
+  - Contains 'Participants'. 
+  - A 'Participant' can message others in the same room.
+  - Contains THE 'Last Message'
+
+Participant:
+  - Is a User who participates in a chat 'Room'
+
+Last Message:
+  - Each 'Room' has a 'Last Message'
+  - It's THE latest 'Message' sent by any participant within a 'Room'.
+  
