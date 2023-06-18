@@ -6,6 +6,6 @@ export default class DevLog {
   }
 
   static getLabeledLogger(label: string) {
-    return (...args: LogPararms) => this.log(label, ...args);
+    return (...args: LogPararms) => this.log(`\x1b[47m${label}\x1b[0m `, ...args);
   }
 }
