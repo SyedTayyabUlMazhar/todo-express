@@ -1,7 +1,3 @@
-enum SocketEvent {
-  CONNECTION = "connection",
-  PACKET_RECEIVED = "packet",
-  PACEKET_SENT = "packetCreate",
-}
+export const ListenEvent = {} as const;
 
-export default SocketEvent;
+export const EmitEvent = {} as const;
