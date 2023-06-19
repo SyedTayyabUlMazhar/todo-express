@@ -7,9 +7,13 @@ Vocabulary:
   - Last Message
 
 Room:
-  - Contains 'Participants'. 
   - A 'Participant' can message others in the same room.
-  - Contains THE 'Last Message'
+  - Properties:
+    - participants:[id1,id2....,idn]
+    - type: private | group
+    - lastMessage: Message
+    - messages: Message[]
+    - id: string
 
 Participant:
   - Is a User who participates in a chat 'Room'
@@ -18,3 +22,18 @@ Last Message:
   - Each 'Room' has a 'Last Message'
   - It's THE latest 'Message' sent by any participant within a 'Room'.
   
+Message:
+  - id
+  - content
+  - type: text
+  - timestamp
+  - senderId
+  - receiverId
+
+
+Flow:
+  - User1 ---msg--> User2
+    - Payload should contain {message:{....}, roomId:...}
+    - If no roomId is passed, the on server we'll look for the a private room between User1 & User2
+       and if no such room exists we'll create one and also send the new room's id to the User1.
+    - We add the message to the room, update the last message for that room, and send the message event to User2
