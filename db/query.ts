@@ -1,8 +1,8 @@
-import Collections from "./collections.js";
-import { Post, User } from "./types.js";
+import { UpdateFilter } from "mongodb";
 import { v4 as uuidv4 } from "uuid";
 import DateUtil from "../utils/dateUtil.js";
-import { UpdateFilter } from "mongodb";
+import Collections from "./collections.js";
+import { Message, Post, Room, RoomType, User } from "./types.js";
 
 const getUser = async (userProperties: Partial<User>) => {
   try {
@@ -94,12 +94,42 @@ const likeUnlikePost = async (postId: string, userId: string) => {
   return updatedPost;
 };
 
+/**
+ * Adds the message to the room specified by roomId, and also updates the last message.
+ *
+ * @param roomId The Id of the room to add message to
+ * @param message the message to add
+ * @returns true if the room was found and updated
+ */
+const addMessageToRoom = async (roomId: string, message: Message) => {
+  const updateResult = await Collections.rooms.updateOne(
+    { id: roomId },
+    { $push: { messages: message }, $set: { lastMessage: message } }
+  );
+  return Boolean(updateResult.matchedCount);
+};
+
+const lookForPrivateRoom = async (userId1: string, userId2: string) => {
+  return Collections.rooms.findOne({
+    type: RoomType.private,
+    participants: { $all: [userId1, userId2] },
+  });
+};
+
+const createRoom = async (room: Room) => {
+  await Collections.rooms.insertOne(room);
+  return true;
+};
+
 const Query = {
   getUser,
   doesUserExists,
   createPost,
   updatePost,
   likeUnlikePost,
+  lookForPrivateRoom,
+  createRoom,
+  addMessageToRoom,
 };
 
 export default Query;
