@@ -1,9 +1,19 @@
 import { WithId } from "mongodb";
-import { User } from "../db/types";
+import { Message, User } from "../db/types";
+import { EmitEvent, ListenEvent } from "./events";
 
-export interface ServerToClientEvents {}
+type Ack<D> = (result: { ok: false } | { ok: true; data: D }) => void;
+export interface ServerToClientEvents {
+  [EmitEvent.message]: (message: Message, roomId: string) => void;
+}
 
-export interface ClientToServerEvents {}
+export interface ClientToServerEvents {
+  [ListenEvent.message]: (
+    message: Message,
+    roomId: string | undefined,
+    ack: Ack<{ roomId: string }>
+  ) => void;
+}
 
 export interface InterServerEvents {}
 
