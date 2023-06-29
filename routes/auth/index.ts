@@ -21,7 +21,11 @@ authRoutes
       const body = req.body;
       body.password = Password.encrypt(body.password);
 
-      const user: User = { ...body, userId: uuidv4() };
+      const user: User = {
+        ...body,
+        userId: uuidv4(),
+        rooms: [],
+      };
       await Collections.users.insertOne(user);
       const token = Jwt.generate(user);
 
