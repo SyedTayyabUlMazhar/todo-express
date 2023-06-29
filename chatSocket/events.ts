@@ -1,7 +1,7 @@
-export const ListenEvent = {
-  message: "message",
-} as const;
+export enum ListenEvent {
+  message = "message",
+}
 
-export const EmitEvent = {
-  message: "message",
-} as const;
+export enum EmitEvent {
+  message = "message",
+}
