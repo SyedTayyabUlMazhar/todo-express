@@ -1,9 +1,9 @@
 import { Collection, Db } from "mongodb";
 
-type JoinedRoom = {
+export type JoinedRoom = {
   roomId: string;
   otherParticipantId: string;
-  lastMessage: Message;
+  type: RoomType;
 };
 
 export type User = {
