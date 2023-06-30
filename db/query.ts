@@ -132,10 +132,11 @@ const addMessageToRoom = async (roomId: string, message: Message) => {
 };
 
 const lookForPrivateRoom = async (userId1: string, userId2: string) => {
-  return Collections.rooms.findOne({
-    type: RoomType.private,
-    participants: { $all: [userId1, userId2] },
-  });
+  const user = await Collections.users.findOne({ userId: userId1 });
+  const roomId = user!.rooms.find(
+    (room) => room.otherParticipantId === userId2
+  )?.roomId;
+  return roomId;
 };
 
 const createRoom = async (room: Room) => {

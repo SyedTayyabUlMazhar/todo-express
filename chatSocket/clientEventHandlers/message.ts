@@ -13,7 +13,7 @@ const onMessage: ClientEventHandler<ListenEvent.message> =
     Log("recieved:", { roomId, message });
     roomId = roomId
       ? roomId
-      : (await Query.lookForPrivateRoom(senderId, receiverId))?.id;
+      : await Query.lookForPrivateRoom(senderId, receiverId);
 
     Log("roomId after conditional lookup:", roomId);
 
