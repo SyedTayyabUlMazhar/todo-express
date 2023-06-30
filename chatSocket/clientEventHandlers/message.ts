@@ -34,6 +34,7 @@ const onMessage: ClientEventHandler<ListenEvent.message> =
       roomId = room.id;
       Log("creating new room:", room);
       await Query.createRoom(room);
+      await Query.addPrivateRoomToUsers(senderId, receiverId, roomId);
       Log("new room created");
     }
     // // send the message to reciever

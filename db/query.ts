@@ -2,7 +2,7 @@ import { UpdateFilter } from "mongodb";
 import { v4 as uuidv4 } from "uuid";
 import DateUtil from "../utils/dateUtil.js";
 import Collections from "./collections.js";
-import { Message, Post, Room, RoomType, User } from "./types.js";
+import { JoinedRoom, Message, Post, Room, RoomType, User } from "./types.js";
 
 const getUser = async (userProperties: Partial<User>) => {
   try {
@@ -16,6 +16,28 @@ const getUser = async (userProperties: Partial<User>) => {
 
 const doesUserExists = async (userProperties: Partial<User>) => {
   return Boolean(await getUser(userProperties));
+};
+
+const addPrivateRoomToUsers = async (
+  userId1: string,
+  userId2: string,
+  roomId: string
+) => {
+  const addRoomToUser = (userId: string, room: JoinedRoom) => {
+    return Collections.users.updateOne({ userId }, { $push: { rooms: room } });
+  };
+
+  const roomCommonProps: Omit<JoinedRoom, "otherParticipantId"> = {
+    roomId,
+    type: RoomType.private,
+  };
+
+  await Promise.all([
+    addRoomToUser(userId1, { ...roomCommonProps, otherParticipantId: userId2 }),
+    addRoomToUser(userId2, { ...roomCommonProps, otherParticipantId: userId1 }),
+  ]);
+
+  return;
 };
 
 const createPost = async (
@@ -124,6 +146,7 @@ const createRoom = async (room: Room) => {
 const Query = {
   getUser,
   doesUserExists,
+  addPrivateRoomToUsers,
   createPost,
   updatePost,
   likeUnlikePost,
