@@ -11,8 +11,10 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   [ListenEvent.message]: (
-    message: Omit<PartialBy<Message, "id">, "timestamp">,
-    roomId: string | undefined,
+    data: {
+      message: Omit<PartialBy<Message, "id">, "timestamp">;
+      roomId: string | undefined;
+    },
     ack: Ack<{ roomId: string }>
   ) => void;
 }

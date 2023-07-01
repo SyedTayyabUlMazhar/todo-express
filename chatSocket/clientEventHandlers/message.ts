@@ -6,8 +6,9 @@ import { EmitEvent, ListenEvent } from "../events.js";
 import { ClientEventHandler } from "../types.js";
 
 const onMessage: ClientEventHandler<ListenEvent.message> =
-  (socket) => async (messageFromClient, roomId, callback) => {
+  (socket) => async (data, callback) => {
     const Log = DevLog.getLabeledLogger(`Socket:${ListenEvent.message}:`);
+    let { message: messageFromClient, roomId } = data;
 
     const message: Message = {
       ...messageFromClient,
