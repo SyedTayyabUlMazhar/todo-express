@@ -1,16 +1,23 @@
 import { v4 } from "uuid";
 import Query from "../../db/query.js";
-import { Room, RoomType } from "../../db/types.js";
+import { Message, Room, RoomType } from "../../db/types.js";
 import DevLog from "../../utils/devLog.js";
 import { EmitEvent, ListenEvent } from "../events.js";
 import { ClientEventHandler } from "../types.js";
 
 const onMessage: ClientEventHandler<ListenEvent.message> =
-  (socket) => async (message, roomId, callback) => {
+  (socket) => async (messageFromClient, roomId, callback) => {
     const Log = DevLog.getLabeledLogger(`Socket:${ListenEvent.message}:`);
+
+    const message: Message = {
+      ...messageFromClient,
+      id: messageFromClient.id ?? v4(),
+      timestamp: Date.now(),
+    };
+
     const { senderId, receiverId } = message;
 
-    Log("recieved:", { roomId, message });
+    Log("recieved:", { roomId, sentMessage: messageFromClient });
     roomId = roomId
       ? roomId
       : await Query.lookForPrivateRoom(senderId, receiverId);

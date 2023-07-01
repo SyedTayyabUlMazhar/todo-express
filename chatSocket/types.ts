@@ -2,6 +2,7 @@ import { WithId } from "mongodb";
 import { Message, User } from "../db/types";
 import { EmitEvent, ListenEvent } from "./events";
 import { Socket } from "socket.io";
+import { Omit, PartialBy } from "../types";
 
 type Ack<D> = (result: { ok: false } | { ok: true; data: D }) => void;
 export interface ServerToClientEvents {
@@ -10,7 +11,7 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   [ListenEvent.message]: (
-    message: Message,
+    message: Omit<PartialBy<Message, "id">, "timestamp">,
     roomId: string | undefined,
     ack: Ack<{ roomId: string }>
   ) => void;
