@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 
 const apiPort = process.env.PORT;
-const socketPort = process.env.SOCKET_PORT as unknown as number;
+const socketPort = (process.env.SOCKET_PORT as unknown) as number;
 
 app.use(express.json());
 app.get("/", (req, res) => {
@@ -29,6 +29,7 @@ app.use(RouteUrl.Post, postRoutes);
 
 const result = await connectToServer();
 if (result.success) {
+  console.clear();
   app.listen(apiPort, () => {
     console.log(`Server is running on port: ${apiPort}`);
   });
