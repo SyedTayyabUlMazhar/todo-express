@@ -4,17 +4,20 @@ import { EmitEvent, ListenEvent } from "./events";
 import { Socket } from "socket.io";
 import { Omit, PartialBy } from "../types";
 
-type Ack<D> = (result: { ok: false } | { ok: true; data: D }) => void;
+type Ack<D> = (
+  result: { ok: false; message: string } | { ok: true; data: D }
+) => void;
+export type ListenMessageEventData = {
+  message: Omit<PartialBy<Message, "id">, "timestamp">;
+  roomId: string | undefined;
+};
 export interface ServerToClientEvents {
   [EmitEvent.message]: (message: Message, roomId: string) => void;
 }
 
 export interface ClientToServerEvents {
   [ListenEvent.message]: (
-    data: {
-      message: Omit<PartialBy<Message, "id">, "timestamp">;
-      roomId: string | undefined;
-    },
+    data: ListenMessageEventData,
     ack: Ack<{ roomId: string }>
   ) => void;
 }

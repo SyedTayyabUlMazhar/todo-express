@@ -2,14 +2,25 @@ import { v4 } from "uuid";
 import Query from "../../db/query.js";
 import { Message, Room, RoomType } from "../../db/types.js";
 import DevLog from "../../utils/devLog.js";
+import { validateSchema } from "../../utils/yuputil.js";
 import { EmitEvent, ListenEvent } from "../events.js";
+import Schema from "../schema.js";
 import { ClientEventHandler } from "../types.js";
 
 const onMessage: ClientEventHandler<ListenEvent.message> =
   (socket) => async (data, callback) => {
     const Log = DevLog.getLabeledLogger(`Socket:${ListenEvent.message}:`);
-    let { message: messageFromClient, roomId } = data;
+    {
+      if (typeof callback !== "function")
+        return Log("Error: Acknowledgement function not received");
 
+      const { isValid, message } = validateSchema(
+        Schema.listenMessageSchema,
+        data
+      );
+      if (!isValid) return callback({ ok: false, message: message! });
+    }
+    let { message: messageFromClient, roomId } = data;
     const message: Message = {
       ...messageFromClient,
       id: messageFromClient.id ?? v4(),
