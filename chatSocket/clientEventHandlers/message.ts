@@ -24,7 +24,7 @@ const onMessage: ClientEventHandler<ListenEvent.message> =
     const message: Message = {
       ...messageFromClient,
       id: messageFromClient.id ?? v4(),
-      timestamp: Date.now(),
+      sentAt: Date.now(),
     };
 
     const { senderId, receiverId } = message;

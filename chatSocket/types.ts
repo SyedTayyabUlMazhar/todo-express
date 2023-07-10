@@ -8,7 +8,7 @@ type Ack<D> = (
   result: { ok: false; message: string } | { ok: true; data: D }
 ) => void;
 export type ListenMessageEventData = {
-  message: Omit<PartialBy<Message, "id">, "timestamp">;
+  message: Omit<PartialBy<Message, "id">, "sentAt">;
   roomId: string | undefined;
 };
 export interface ServerToClientEvents {
