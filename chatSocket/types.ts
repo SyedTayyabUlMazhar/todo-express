@@ -1,5 +1,5 @@
 import { WithId } from "mongodb";
-import { Message, User } from "../db/types";
+import { Message, MessageType, User } from "../db/types";
 import { EmitEvent, ListenEvent } from "./events";
 import { Socket } from "socket.io";
 import { Omit, PartialBy } from "../types";
@@ -8,7 +8,7 @@ type Ack<D> = (
   result: { ok: false; message: string } | { ok: true; data: D }
 ) => void;
 export type ListenMessageEventData = {
-  message: Omit<PartialBy<Message, "id">, "sentAt">;
+  message: Omit<PartialBy<Message, "id">, "status" | "sentAt">;
   roomId: string | undefined;
 };
 export interface ServerToClientEvents {

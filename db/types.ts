@@ -36,15 +36,27 @@ export type Collections = {
 export enum MessageType {
   text = "text",
 }
-
+export enum MessageStatus {
+  sent = "sent",
+  delivered = "delivered",
+  seen = "seen",
+}
 export type Message = {
   id: string;
   content: string;
   type: MessageType;
-  sentAt: number;
   receiverId: string;
   senderId: string;
-};
+} & (
+  | { status: MessageStatus.sent; sentAt: number }
+  | { status: MessageStatus.delivered; sentAt: number; deliveredAt: number }
+  | {
+      status: MessageStatus.seen;
+      sentAt: number;
+      deliveredAt: number;
+      seenAt: number;
+    }
+);
 
 export enum RoomType {
   private = "private",
