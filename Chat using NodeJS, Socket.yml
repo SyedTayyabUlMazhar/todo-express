@@ -37,3 +37,9 @@ Flow:
     - If no roomId is passed, the on server we'll look for the a private room between User1 & User2
        and if no such room exists we'll create one and also send the new room's id to the User1.
     - We add the message to the room, update the last message for that room, and send the message event to User2
+
+  - Status Handling:
+    - Client can't pass status.
+    - When message received on server, set the status to sent by default
+    - User can send an event to update status to delivered/seen. At the same time the same event will be sent to other participants.
+    
