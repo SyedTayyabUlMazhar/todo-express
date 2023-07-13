@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 import Query from "../../db/query.js";
-import { Message, Room, RoomType } from "../../db/types.js";
+import { Message, MessageStatus, Room, RoomType } from "../../db/types.js";
 import DevLog from "../../utils/devLog.js";
 import { validateSchema } from "../../utils/yuputil.js";
 import { EmitEvent, ListenEvent } from "../events.js";
@@ -24,6 +24,7 @@ const onMessage: ClientEventHandler<ListenEvent.message> =
     const message: Message = {
       ...messageFromClient,
       id: messageFromClient.id ?? v4(),
+      status: MessageStatus.sent,
       sentAt: Date.now(),
     };
 
